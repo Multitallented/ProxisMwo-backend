@@ -1,0 +1,4 @@
+CREATE DATABASE proxismwo;
+CREATE USER 'proxismwo'@'%' IDENTIFIED BY '_6V6@9"5e55N';
+GRANT ALL PRIVILEGES ON proxismwo.* TO 'proxismwo'@'%';
+FLUSH PRIVILEGES;

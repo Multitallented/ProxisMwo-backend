@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.redcastlemedia.proxismwo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class ProxisMwoTests {
 
 	@Test
 	void contextLoads() {
