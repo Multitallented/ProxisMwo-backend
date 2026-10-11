@@ -22,17 +22,17 @@ public class UserService {
 
     public ProblemDetail validateNewUser(User body) {
         if (userRepository.findByUsername(body.getUsername()).isPresent()) {
-            return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+            return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Username already exists");
         }
 
         if (body.getUsername().length() < 3 || body.getUsername().length() > 20 ||
                 !body.getUsername().matches("^[a-zA-Z0-9]+$")) {
-            return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+            return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid username");
         }
 
         String unvalidatedPassword = body.getPassword();
-        if (!unvalidatedPassword.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")) {
-            return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid username or password");
+        if (!unvalidatedPassword.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,}$")) {
+            return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid password");
         }
         return null;
     }
