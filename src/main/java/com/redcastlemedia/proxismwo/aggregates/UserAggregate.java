@@ -1,7 +1,7 @@
 package com.redcastlemedia.proxismwo.aggregates;
 
 import com.redcastlemedia.proxismwo.commands.CreateUserCommand;
-import com.redcastlemedia.proxismwo.events.UserCreatedEvent;
+import com.redcastlemedia.proxismwo.events.UserCreateEvent;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -17,14 +17,15 @@ public class UserAggregate {
 
     @CommandHandler
     public UserAggregate(CreateUserCommand command) {
-        AggregateLifecycle.apply(new UserCreatedEvent(
+        AggregateLifecycle.apply(new UserCreateEvent(
                 command.getUserId(),
                 command.getUsername(),
-                command.getPassword()));
+                command.getPassword(),
+                command.getEmail()));
     }
 
     @EventSourcingHandler
-    public void on(UserCreatedEvent event) {
-        this.id = event.getUserId();
+    public void on(UserCreateEvent event) {
+        this.id = event.userId();
     }
 }

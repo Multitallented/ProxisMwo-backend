@@ -2,7 +2,6 @@ package com.redcastlemedia.proxismwo.controllers;
 
 import com.redcastlemedia.proxismwo.api.LoginRequest;
 import com.redcastlemedia.proxismwo.commands.CreateUserCommand;
-import com.redcastlemedia.proxismwo.events.UserCreatedEvent;
 import com.redcastlemedia.proxismwo.models.User;
 import com.redcastlemedia.proxismwo.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -97,7 +96,7 @@ public class UserController {
 
         String hashedPassword = passwordEncoder.encode(body.getPassword());
         try {
-            commandGateway.sendAndWait(new CreateUserCommand(UUID.randomUUID().toString(), body.getUsername(), hashedPassword));
+            commandGateway.sendAndWait(new CreateUserCommand(UUID.randomUUID().toString(), body.getUsername(), hashedPassword, body.getEmail()));
             return ResponseEntity.ok().body(ProblemDetail.forStatus(200));
         } catch (Exception e) {
             return ResponseEntity.ok().body(ProblemDetail.forStatus(500));

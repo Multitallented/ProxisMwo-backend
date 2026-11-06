@@ -44,6 +44,7 @@ public class CustomWebSecurityConfigurerAdapter {
                         .requestMatchers("/admin/**").hasRole(UserRoles.ADMIN.name())
                         .requestMatchers("/anonymous*").anonymous()
                         .requestMatchers("/login*").permitAll()
+                        .requestMatchers("/planets-all").permitAll()
                         .requestMatchers("/register*").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(AbstractHttpConfigurer::disable)

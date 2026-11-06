@@ -1,6 +1,6 @@
 package com.redcastlemedia.proxismwo.services;
 
-import com.redcastlemedia.proxismwo.events.UserCreatedEvent;
+import com.redcastlemedia.proxismwo.events.UserCreateEvent;
 import com.redcastlemedia.proxismwo.models.User;
 import com.redcastlemedia.proxismwo.models.UserRoles;
 import com.redcastlemedia.proxismwo.repositories.UserRepository;
@@ -34,12 +34,16 @@ public class UserService {
         if (!unvalidatedPassword.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,}$")) {
             return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid password");
         }
+
+        if (body.getEmail().matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")) {
+            return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid email");
+        }
         return null;
     }
 
     @EventHandler
-    public void on(UserCreatedEvent event) {
-        User user = new User(event.getUserId(), event.getUsername(), event.getPassword(), UserRoles.USER.name());
+    public void on(UserCreateEvent event) {
+        User user = new User(event.userId(), event.username(), event.password(), UserRoles.USER.name(), event.email());
         this.userRepository.save(user);
     }
 }

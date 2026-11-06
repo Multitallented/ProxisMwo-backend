@@ -1,7 +1,7 @@
 package com.redcastlemedia.proxismwo.aggregates;
 
 import com.redcastlemedia.proxismwo.commands.CreateUserCommand;
-import com.redcastlemedia.proxismwo.events.UserCreatedEvent;
+import com.redcastlemedia.proxismwo.events.UserCreateEvent;
 import com.redcastlemedia.proxismwo.repositories.UserRepository;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
@@ -29,8 +29,9 @@ public class UserAggregateTests {
         String userId = UUID.randomUUID().toString();
         String username = "Username";
         String password = "pass";
+        String email = "test@gmail.com";
         fixture.givenNoPriorActivity()
-                .when(new CreateUserCommand(userId, username, password))
-                .expectEvents(new UserCreatedEvent(userId, username, password));
+                .when(new CreateUserCommand(userId, username, password, email))
+                .expectEvents(new UserCreateEvent(userId, username, password, email));
     }
 }
